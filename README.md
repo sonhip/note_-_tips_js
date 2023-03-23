@@ -44,13 +44,14 @@
 - Incremental static genertation : pre-generate a page, but then you can also tell nextjs that a given page should be generation again for every incoming request at most every X seconds via “revalidate”
 - SSG using with getStaticProps, if aagrument is prams of page’id, we need using getStaticPath follow
 - in function getStaticPath, fallback property used:
-	-	fallback: true: page is not pre-generated, they are only pre-generated when they are needed. Just pre-gen pages that users visit frequenly in the list `path: [{params: {pageId: "1"}]`. If you directly to page by enter URL, you actully get an error that can not read undefined of property. It just work by click via `Link`
-	- 	fallback: false: default, prepare to gen all the page, even the page not necessary or rarely visited
+	-	fallback: true: they are only pre-generated when they are needed.. If you directly to page by enter URL, you actully get an error that can not read undefined of property. It just work by click via `Link`. Tell nextjs there are more page than pages we prepared in getStaticPaths, so it will try to dynamiccaly gen event that page was not prepare gen before.
+	- 	fallback: false: default, prepare to gen all the page, even the page not necessary or rarely visited, if user try to load this page for unknownn id, it should show 404 page
 	-  fallback: "blocking": not to check if page isnt loaded, wait to page fully be pre-gen on server, then it takes a little bit longer.
 
 * UseRouter.query => return object has query in url
 * A tag diff Link in nextjs cause a tag send http request make changes, reload page and state, link in next not do the same, link tag pre fetch data when hover
 * Route.replace => cant go back this page after navigate
+* Optimize image: we should use <Image/> tag provied by next, it reduces time to load page by change the type of the image into webp. Also cached the image for the future request from similar devices. We need provide width and hight property for Image tag. Also using lazy load for the image, it doesnt load what we dont need
 
 1. Note:
 	* when we use client side data fetching? some data doesn't need to be pre-gen
@@ -78,5 +79,12 @@
 * Context provides a way to pass data through a tree of React components, without having to manually pass props.
 
 * Context is designed to share data that is considered global for a tree of React components.
+* API and REST(representational state transfer) API a specific 
+* useState should take an arrow func for, initial state (if state caculate much, heavy), overring old state, not merging state
+* useRef quite similar with useState, but it can be store previous state without rerender component, and useRef can be refer to element DOM as well
+## Formating is ao easy with the Intl javascript API: 
+* const formatter = new intl.DateTimeFormat("en-US") => formatter.format(new Date());
+* if you want to take dafault time of the person had access => formatter = new intl.DateTimeFormat(undefined, {format optional}) => format everything
+
 
 
